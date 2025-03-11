@@ -15,24 +15,9 @@ import re
 import random
 import shutil
 import tifffile as tiff
+from anapath.params import *
 
 
-Min_SIZE_MB = 5 # Taille min par tuile (en Mo)
-tile_size_l = 4096
-tile_size_h = 2048  # Taille des tuiles
-level = 0  # Niveau de zoom OpenSlide (0 = max résolution)
-train_tumor_path = "/mnt/c/Users/grego/Documents/Projet_ML/Data/Dataset/train/tumor"
-train_normal_path = "/mnt/c/Users/grego/Documents/Projet_ML/Data/Dataset/train/normal"
-treated_tumor_path='/mnt/c/Users/grego/Documents/Projet_ML/Data/TREATED/tumor'
-treated_normal_path='/mnt/c/Users/grego/Documents/Projet_ML/Data/TREATED/normal'
-totreat_tumor_path = '/mnt/c/Users/grego/Documents/Projet_ML/Data/TOTREAT/tumor'
-totreat_normal_path = '/mnt/c/Users/grego/Documents/Projet_ML/Data/TOTREAT/normal'
-
-os.environ["OMP_NUM_THREADS"] = "16"  # Ajustez selon votre nombre de cœurs
-os.environ["MKL_NUM_THREADS"] = "16"
-input_path = "/mnt/c/Users/grego/Documents/Projet_ML/Data/TOTREAT/tumor" # / a la fin
-val_path='/mnt/c/Users/grego/Documents/Projet_ML/Data/Dataset/val'
-train_path='/mnt/c/Users/grego/Documents/Projet_ML/Data/Dataset/train'
 
 
 def load_slide(file, source):
@@ -47,7 +32,8 @@ def load_slide(file, source):
     #   contenu = f.read()
     slide = openslide.OpenSlide(path_to_slide)
     # Récupérer une miniature pour analyse (taille réduite pour traitement rapide)
-    thumbnail = slide.get_thumbnail((1024, 2048))  # Ajuster la taille selon l’image
+    thumbnail = slide.get_thumbnail((tile_size_h,tile_size_l))  # Ajuster la taille selon l’image
+
     # Convertir en format OpenCV
     thumbnail_np = np.array(thumbnail.convert("RGB"))
     return slide, thumbnail_np
@@ -84,7 +70,7 @@ def contour_cells(thumbnail_np):
 
 def slide_cut(slide, thumbnail_np, contours, filename,
               output_path, level=0, tile_size_l=tile_size_l, tile_size_h=tile_size_h,
-              min_size_mb=Min_SIZE_MB, max_workers=8, global_csv_path="all_tiles_coordinates.csv"):
+              min_size_mb=min_size_mb, max_workers=8, global_csv_path="all_tiles_coordinates.csv"):
     """
     Découpe une lame (slide) en tuiles selon les contours détectés et sauvegarde leurs coordonnées.
 
@@ -244,7 +230,6 @@ def select_random_files_by_index(directory, num_files=15):
             if index not in indices:
                 indices[index] = []
             indices[index].append(filename)
-    print(indices)
     # Dictionnaire pour stocker les résultats
     selected_files_by_index = {}
 
@@ -338,10 +323,10 @@ def save_image(image_array, output_path):
     image.save(output_path, format='TIFF')
 
 
-def display_image(image_path):
-    """Affiche une image TIF."""
-    image = load_tif_image(image_path)
-    if image is not None:
-        plt.imshow(image, cmap='gray')
-        plt.axis('off')
-        plt.show()
+def display_image(image: np.array):
+    """ affiche une image au format np.array"""
+    plt.imshow(image)
+    plt.title("Affichage de l'image")
+    plt.axis("off")
+    plt.show()
+    return None

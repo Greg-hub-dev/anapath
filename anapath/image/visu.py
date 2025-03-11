@@ -1,5 +1,3 @@
-
-
 import cv2
 import numpy as np
 import pandas as pd
@@ -9,7 +7,7 @@ import openslide
 import os
 import glob
 
-def visualize_tiles_from_global_csv(global_csv_path, slides_dir, output_dir=None, scale_factor=0.):
+def visualize_tiles_from_global_csv(global_csv_path, slides_dir, output_dir):
     """
     Visualise les tuiles de plusieurs lames à partir d'un fichier CSV global.
 
@@ -97,23 +95,6 @@ def visualize_tiles_from_global_csv(global_csv_path, slides_dir, output_dir=None
             scale_x = thumbnail.width / slide.dimensions[0]
             scale_y = thumbnail.height / slide.dimensions[1]
 
-            # Créer une palette de couleurs pour les contours
-            #colors = [
-            #    (0, 255, 0),    # Vert
-            #    (0, 255, 0),    # Vert
-            #    (0, 255, 0),    # Vert
-            #    (255, 0, 0),    # Rouge
-            #    (0, 0, 255),    # Bleu
-            #    (255, 255, 0),  # Jaune
-            #    (255, 0, 255),  # Magenta
-            #    (0, 255, 255),  # Cyan
-            #    (128, 0, 0),    # Marron
-            #    (0, 128, 0),    # Vert foncé
-            #    (0, 0, 128),    # Bleu foncé
-            #    (128, 128, 0),  # Olive
-            #    (128, 0, 128),  # Violet
-            #    (0, 128, 128)   # Bleu-vert
-            #]
 
             # Dessiner toutes les tuiles pour cette lame
             for _, row in slide_df.iterrows():
@@ -151,11 +132,3 @@ def visualize_tiles_from_global_csv(global_csv_path, slides_dir, output_dir=None
             print(f"Erreur lors de la visualisation des tuiles pour {slide_filename}: {e}")
 
     return generated_images
-
-# Exemple d'utilisation
-if __name__ == "__main__":
-    global_csv_path = f"{train_path}/tumor/all_tiles_coordinates.csv"
-    slides_dir = treated_path
-    output_dir = train_path
-
-    images = visualize_tiles_from_global_csv(global_csv_path, slides_dir, output_dir)
