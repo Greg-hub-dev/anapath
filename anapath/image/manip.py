@@ -219,6 +219,7 @@ def select_random_files_by_index(directory, num_files=15):
         list: Liste des fichiers sélectionnés
     """
     all_files = [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
+    print(all_files)
 
     # Extraire les indices des fichiers
     indices = {}
@@ -245,7 +246,7 @@ def select_random_files_by_index(directory, num_files=15):
 
     return selected_files_by_index
 
-def move_unselected_files(directory, selected_files_dict):
+def move_unselected_files2(directory, selected_files_dict):
     """
     Déplace les fichiers non sélectionnés vers un répertoire 'noselect'.
 
@@ -257,8 +258,10 @@ def move_unselected_files(directory, selected_files_dict):
         int: Nombre de fichiers déplacés
     """
     # Créer une liste de tous les fichiers sélectionnés
+
     all_selected_files = []
     for files in selected_files_dict.values():
+
         all_selected_files.extend(files)
 
     # Liste tous les fichiers dans le répertoire
@@ -273,13 +276,13 @@ def move_unselected_files(directory, selected_files_dict):
     files_moved = 0
     for filename in all_files:
         # Vérifier si le fichier contient un indice (pour éviter de déplacer des fichiers non pertinents)
-        if re.search(r'tile_(\d+)_', filename):
+        if re.search(r'tile_([a-zA-Z0-9]+)_', filename):
+
             if filename not in all_selected_files:
                 source_path = os.path.join(directory, filename)
                 target_path = os.path.join(noselect_dir, filename)
                 shutil.move(source_path, target_path)
                 files_moved += 1
-
     return files_moved
 
 

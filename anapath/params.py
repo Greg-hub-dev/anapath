@@ -6,12 +6,16 @@ tile_size_h = 2048  # Taille des tuiles
 level = 0  # Niveau de zoom OpenSlide (0 = max résolution)
 path_to_data = os.environ.get("PATH_TO_DATA")
 
-train_tumor_path = f"{path_to_data}/Dataset/train/tumor"
-train_normal_path = f"{path_to_data}/Dataset/train/normal"
-val_tumor_path = f"{path_to_data}/Dataset/val/tumor"
-val_normal_path = f"{path_to_data}/Dataset/val/normal"
-test_tumor_path = f"{path_to_data}/Dataset/test/tumor"
-test_normal_path = f"{path_to_data}/Dataset/test/normal"
+tumor_test_path = f"{path_to_data}/Dataset"
+cell_test_path = f"{path_to_data}/Dataset2"
+
+train_tumor_path = f"{tumor_test_path}/train/tumor"
+train_normal_path = f"{tumor_test_path}/train/normal"
+val_tumor_path = f"{tumor_test_path}/val/tumor"
+val_normal_path = f"{tumor_test_path}/val/normal"
+test_tumor_path = f"{tumor_test_path}/test/tumor"
+test_normal_path = f"{tumor_test_path}/test/normal"
+
 
 treated_tumor_path= f"{path_to_data}/TREATED/tumor"
 treated_normal_path= f"{path_to_data}/TREATED/normal"
