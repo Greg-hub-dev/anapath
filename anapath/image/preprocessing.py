@@ -1,5 +1,5 @@
 
-from tensorflow.keras.utils import to_categorical
+from keras.utils import to_categorical
 from anapath.params import *
 from tqdm import tqdm
 import numpy as np

@@ -288,10 +288,10 @@ def move_unselected_files2(directory, selected_files_dict):
 
 
 
-def load_tif_image(file_path):
-    """Charge une image TIF (mono ou multi-canal)."""
+def load_image(file_path):
+    """Charge une image png avec cv2."""
     try:
-        image = tiff.imread(file_path)
+        image = cv2.imread(file_path, cv2.IMREAD_UNCHANGED)
         return image
     except Exception as e:
         print(f"Erreur lors du chargement de {file_path}: {e}")
