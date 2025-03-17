@@ -1,6 +1,8 @@
 install:
 	@pip install -e .
 
+requirement:
+	@pip install -r requirements.txt
 clean:
 	@rm -f */version.txt
 	@rm -f .coverage
