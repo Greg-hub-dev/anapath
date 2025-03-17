@@ -17,6 +17,8 @@ openslide-python==1.4.1
 opencv-python==4.11.0.86
 ipython==8.5.0
 natsort==8.4.0
+tqdm==4.64.1
+
 
 tensorflow-macos==2.10.0; sys_platform == 'darwin' and 'ARM' in platform_version # Mac M-chips
 tensorflow==2.10.0; sys_platform == 'darwin' and 'ARM' not in platform_version # Mac Intel chips
