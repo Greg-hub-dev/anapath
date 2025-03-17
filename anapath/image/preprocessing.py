@@ -5,6 +5,7 @@ from tqdm import tqdm
 import numpy as np
 import os
 from PIL import Image
+import cv2
 
 def load_image_anapath(type='tumor',env='train', max_image=2):
     """Charge les images dans des X et y"""
@@ -31,3 +32,24 @@ def load_image_anapath(type='tumor',env='train', max_image=2):
     y = to_categorical(labels, num_classes)
 
     return X, y, num_classes
+
+def preprocess_image(image : np.array, target_size=(256, 256), normalize=True):
+    """Redimensionne et normalise l'image."""
+    if image is None:
+        return None
+
+    # Convertir en objet PIL si ce n'est pas déjà le cas
+    #if not isinstance(image, Image.Image):
+    #    image = Image.fromarray(image)
+
+    # Redimensionner
+    image = cv2.resize(image, target_size)
+
+    # Convertir BGR en RGB
+    image_array = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+    # Normaliser (optionnel)
+    if normalize:
+        image_array = image_array.astype(np.float32) / 255.0
+
+    return image_array

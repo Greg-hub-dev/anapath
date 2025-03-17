@@ -286,8 +286,6 @@ def move_unselected_files2(directory, selected_files_dict):
     return files_moved
 
 
-
-
 def load_image(file_path):
     """Charge une image png avec cv2."""
     try:
@@ -298,38 +296,10 @@ def load_image(file_path):
         return None
 
 
-def preprocess_image(image, target_size=(256, 256), normalize=True):
-    """Redimensionne et normalise l'image."""
-    if image is None:
-        return None
 
-    # Convertir en objet PIL si ce n'est pas déjà le cas
-    if not isinstance(image, Image.Image):
-        image = Image.fromarray(image)
-
-    # Redimensionner
-    image = image.resize(target_size, Image.ANTIALIAS)
-
-    # Convertir en tableau NumPy
-    image_array = np.array(image)
-
-    # Normaliser (optionnel)
-    if normalize:
-        image_array = image_array.astype(np.float32) / 255.0
-
-    return image_array
 
 
 def save_image(image_array, output_path):
     """Sauvegarde l'image sous format TIF."""
     image = Image.fromarray((image_array * 255).astype(np.uint8))
     image.save(output_path, format='TIFF')
-
-
-def display_image(image: np.array):
-    """ affiche une image au format np.array"""
-    plt.imshow(image)
-    plt.title("Affichage de l'image")
-    plt.axis("off")
-    plt.show()
-    return None

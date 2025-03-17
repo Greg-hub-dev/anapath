@@ -132,3 +132,12 @@ def visualize_tiles_from_global_csv(global_csv_path, slides_dir, output_dir):
             print(f"Erreur lors de la visualisation des tuiles pour {slide_filename}: {e}")
 
     return generated_images
+
+
+def display_image(image: np.array):
+    """ affiche une image au format np.array"""
+    plt.imshow(image)
+    plt.title("Affichage de l'image")
+    plt.axis("off")
+    plt.show()
+    return None
