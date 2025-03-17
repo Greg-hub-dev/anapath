@@ -14,7 +14,7 @@ import csv
 import re
 import random
 import shutil
-import tifffile as tiff
+
 from anapath.params import *
 
 
