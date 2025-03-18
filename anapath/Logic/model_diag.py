@@ -44,7 +44,7 @@ def initialize_model(input_shape: tuple) -> Model:
     layers.Dropout(0.2),
 
     # PREDICITVE LAYER
-    layers.Dense(2, activation='softmax')
+    layers.Dense(1, activation='sigmoid')
 ])
 
     print("✅ Model initialized")
@@ -59,7 +59,7 @@ def compile_model(model: Model, learning_rate=0.0005) -> Model:
     adam_opt = optimizers.Adam(learning_rate, beta_1=0.9, beta_2=0.999)
     model.compile(optimizer='adam',
               loss='binary_crossentropy',
-              metrics=['accuracy'])
+              metrics=['accuracy','recall'])
 
 
     print("✅ Model compiled")
@@ -113,7 +113,7 @@ def train_model(
     print(Fore.BLUE + "\nTraining model..." + Style.RESET_ALL)
 
     es = EarlyStopping(
-        monitor="val_loss",
+        monitor="val_recall",
         patience=patience,
         restore_best_weights=True,
         verbose=1
@@ -126,6 +126,7 @@ def train_model(
         epochs=10,
         validation_data=val_generator,
         validation_steps=len(val_generator),
+        callbacks=[es]
         )
 
     print(f"✅ Model trained on {len(train_generator)} rows with min val Accuracy: {round(np.min(history_cnn.history['val_accuracy']), 2)}")
