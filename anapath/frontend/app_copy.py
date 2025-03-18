@@ -103,7 +103,7 @@ Cet outil d'aide à la décision analyse les images histologiques et fournit une
 st.markdown('</div>', unsafe_allow_html=True)
 
 # Section de téléchargement d'image
-st.markdown('<h2 class="section-title">Téléchargement d'Image</h2>', unsafe_allow_html=True)
+st.markdown('<h2 class="section-title">Téléchargement d Image</h2>', unsafe_allow_html=True)
 st.markdown('<div class="upload-section">', unsafe_allow_html=True)
 st.markdown("### Veuillez télécharger une image de tissu histologique")
 st.markdown("Pour des résultats optimaux, utilisez des images de haute qualité au format JPG ou PNG.")
@@ -183,17 +183,17 @@ st.markdown('<h2 class="section-title">Informations Complémentaires</h2>', unsa
 st.markdown('<div class="info-box">', unsafe_allow_html=True)
 st.markdown("""
 ### Méthodologie
-Cette application utilise un modèle d'intelligence artificielle entraîné sur des milliers d'images histopathologiques annotées par des experts. L'algorithme analyse les caractéristiques morphologiques des tissus pour identifier les patterns associés aux différents types de néoplasies.
+Cette application utilise un modèle d intelligence artificielle entraîné sur des milliers d images histopathologiques annotées par des experts. L'algorithme analyse les caractéristiques morphologiques des tissus pour identifier les patterns associés aux différents types de néoplasies.
 
 ### Confidentialité
-Toutes les images téléchargées sont traitées de manière sécurisée et ne sont pas conservées au-delà de la session d'analyse.
+Toutes les images téléchargées sont traitées de manière sécurisée et ne sont pas conservées au-delà de la session d analyse.
 """)
 st.markdown('</div>', unsafe_allow_html=True)
 
 # Pied de page
 st.markdown('<div class="footer">', unsafe_allow_html=True)
 st.markdown("""
-© 2024 Service d'Anatomie Pathologique - Tous droits réservés  
+© 2024 Service d Anatomie Pathologique - Tous droits réservés  
 Cet outil est destiné à un usage professionnel uniquement.
 """)
 st.markdown('</div>', unsafe_allow_html=True)
