@@ -95,10 +95,10 @@ st.markdown("""
 ### 🔍 À propos de cet outil
 Cet outil d'aide à la décision analyse les images histologiques et fournit une évaluation :
 - Du diagnostic potentiel de tissus cancéreux
-- De l'estimation du taux de cellularité tumorale
+- De l estimation du taux de cellularité tumorale
 - Des caractéristiques morphologiques significatives
 
-**Important :** Cet outil est conçu pour assister les professionnels de santé et ne remplace pas l'expertise médicale.
+**Important :** Cet outil est conçu pour assister les professionnels de santé et ne remplace pas l expertise médicale.
 """)
 st.markdown('</div>', unsafe_allow_html=True)
 
@@ -131,7 +131,7 @@ if uploaded_file is not None:
         st.markdown(f"**Format:** {uploaded_file.type}")
     
     with col2:
-        st.markdown('<h3 class="subtitle">Résultats de l'Analyse</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 class="subtitle">Résultats de l Analyse</h3>', unsafe_allow_html=True)
         
         # Simulation de chargement avec une barre de progression
         with st.spinner("Analyse en cours..."):
@@ -171,7 +171,7 @@ if uploaded_file is not None:
                     st.warning("**Remarque importante :** Ces résultats sont générés automatiquement et doivent être confirmés par un anatomopathologiste.")
                     
                 else:
-                    st.error(f"Erreur lors de l'analyse: {res.status_code} - {res.text}")
+                    st.error(f"Erreur lors de l analyse: {res.status_code} - {res.text}")
                     
             except Exception as e:
                 st.error(f"Une erreur s'est produite: {str(e)}")
@@ -183,7 +183,7 @@ st.markdown('<h2 class="section-title">Informations Complémentaires</h2>', unsa
 st.markdown('<div class="info-box">', unsafe_allow_html=True)
 st.markdown("""
 ### Méthodologie
-Cette application utilise un modèle d intelligence artificielle entraîné sur des milliers d images histopathologiques annotées par des experts. L'algorithme analyse les caractéristiques morphologiques des tissus pour identifier les patterns associés aux différents types de néoplasies.
+Cette application utilise un modèle d intelligence artificielle entraîné sur des milliers d images histopathologiques annotées par des experts. L algorithme analyse les caractéristiques morphologiques des tissus pour identifier les patterns associés aux différents types de néoplasies.
 
 ### Confidentialité
 Toutes les images téléchargées sont traitées de manière sécurisée et ne sont pas conservées au-delà de la session d analyse.
