@@ -124,7 +124,7 @@ if uploaded_file is not None:
         
         # Affichage de l'image téléchargée
         image = Image.open(uploaded_file)
-        st.image(image, caption="Image histologique téléchargée", use_column_width=True)
+        st.image(image, caption="Image histologique téléchargée", use_container_width=True)
         
         # Informations sur l'image
         st.markdown(f"**Dimensions:** {image.width} × {image.height} pixels")
@@ -152,7 +152,7 @@ if uploaded_file is not None:
                 
                 if res.status_code == 200:
                     # Affichage de l'image annotée retournée par l'API
-                    st.image(res.content, caption="Image Analysée avec Annotations", use_column_width=True)
+                    st.image(res.content, caption="Image Analysée avec Annotations", use_container_width=True)
                     
                     # Ici, vous pourriez ajouter plus de données de résultat si votre API les retourne
                     # Par exemple, un JSON avec les résultats d'analyse détaillés
