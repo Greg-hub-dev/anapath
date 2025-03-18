@@ -29,3 +29,11 @@ test_path= f"{path_to_data}/Dataset/test"
 
 os.environ["OMP_NUM_THREADS"] = "16"  # Ajustez selon votre nombre de cœurs
 os.environ["MKL_NUM_THREADS"] = "16"
+
+
+'''
+Dataset 2 : tumor low and high
+'''
+val_cell_path= f"{path_to_data}/Dataset2/val"
+train_cell_path= f"{path_to_data}/Dataset2/train"
+test_cell_path= f"{path_to_data}/Dataset2/test"
