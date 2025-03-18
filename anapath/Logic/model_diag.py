@@ -40,7 +40,7 @@ def initialize_model(input_shape: tuple) -> Model:
     layers.Flatten(),
 
     ### One Fully Connected layer - "Fully Connected" is equivalent to saying "Dense"
-    layers.Dense(32, activation='relu',  kernel_initializer='he_uniform'),
+    layers.Dense(16, activation='relu',  kernel_initializer='he_uniform'),
     layers.Dropout(0.2),
 
     # PREDICITVE LAYER
@@ -59,7 +59,7 @@ def compile_model(model: Model, learning_rate=0.0005) -> Model:
     adam_opt = optimizers.Adam(learning_rate, beta_1=0.9, beta_2=0.999)
     model.compile(optimizer='adam',
               loss='binary_crossentropy',
-              metrics=['accuracy','recall'])
+              metrics=['accuracy'])
 
 
     print("✅ Model compiled")
@@ -104,6 +104,7 @@ def train_model(
         model: Model,
         train_generator,
         val_generator,
+        epochs,
         batch_size=2,
         patience=10,
     ) -> Tuple[Model, dict]:
@@ -113,7 +114,7 @@ def train_model(
     print(Fore.BLUE + "\nTraining model..." + Style.RESET_ALL)
 
     es = EarlyStopping(
-        monitor="val_recall",
+        monitor="loss",
         patience=patience,
         restore_best_weights=True,
         verbose=1
@@ -123,12 +124,12 @@ def train_model(
         train_generator,
         steps_per_epoch=len(train_generator),
         batch_size=batch_size,
-        epochs=10,
+        epochs=epochs,
         validation_data=val_generator,
         validation_steps=len(val_generator),
         callbacks=[es]
         )
 
-    print(f"✅ Model trained on {len(train_generator)} rows with min val Accuracy: {round(np.min(history_cnn.history['val_accuracy']), 2)}")
+    print(f"✅ Model trained on {len(train_generator)} images with min val Accuracy: {round(np.min(history_cnn.history['val_accuracy']), 2)}")
 
     return model, history_cnn

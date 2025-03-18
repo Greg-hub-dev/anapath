@@ -3,15 +3,17 @@ import shutil
 import random
 
 # Chemin vers le dossier parent Dataset => A MODIFIER AVEC VOTRE PATH
-file_path = "/Users/annelisethomin/Docs/0_PROJET_ANAPATH/Data_test/Dataset"
+#file_path = "/Users/annelisethomin/Docs/0_PROJET_ANAPATH/Data_test/Dataset"
 
 # Chemins vers les sous-dossiers
-train_tumor_path = os.path.join(file_path, "train", "tumor")
-train_normal_path = os.path.join(file_path, "train", "normal")
-val_tumor_path = os.path.join(file_path, "val", "tumor")
-val_normal_path = os.path.join(file_path, "val", "normal")
-test_tumor_path = os.path.join(file_path, "test", "tumor")
-test_normal_path = os.path.join(file_path, "test", "normal")
+#train_tumor_path = os.path.join(file_path, "train", "tumor")
+#train_normal_path = os.path.join(file_path, "train", "normal")
+#val_tumor_path = os.path.join(file_path, "val", "tumor")
+#val_normal_path = os.path.join(file_path, "val", "normal")
+#test_tumor_path = os.path.join(file_path, "test", "tumor")
+#test_normal_path = os.path.join(file_path, "test", "normal")
+
+from anapath.params import *
 
 # Fonction pour déplacer les fichiers
 def move_files(source_dir, dest_dir, files):
