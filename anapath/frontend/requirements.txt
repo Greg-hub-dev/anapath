@@ -1,0 +1,15 @@
+
+# img
+pillow
+opencv-python==4.11.0.86
+
+uvicorn
+fastapi
+
+python-multipart
+
+
+# web
+streamlit
+requests
+python-dotenv
