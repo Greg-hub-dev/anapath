@@ -56,7 +56,7 @@ def preprocess_image(image : np.array, target_size=(256, 256), normalize=True):
 
     return image_array
 
-def datagenerator(type):
+def datagenerator(type, target_size = (512,1024)):
 # Configuration du générateur d'augmentation
 
     if type == 'diag':
@@ -71,13 +71,13 @@ def datagenerator(type):
             fill_mode='nearest')      # Méthode pour remplir les pixels créés après transformation
         train_generator = datagen.flow_from_directory(
             train_path,  # Dossier parent contenant un sous-dossier par classe
-            target_size=(512, 1024),        # Redimensionnement des images
-            batch_size=1,                 # Nombre d'images par lot
+            target_size=target_size,        # Redimensionnement des images
+            batch_size=4,                 # Nombre d'images par lot
             class_mode='categorical')      # Type d'encodage des étiquettes (one-hot pour multi-classes)
         validation_generator = datagen.flow_from_directory(
             val_path,  # Dossier parent contenant un sous-dossier par classe
-            target_size=(512, 1024),        # Redimensionnement des images
-            batch_size=1,                 # Nombre d'images par lot
+            target_size=target_size,        # Redimensionnement des images
+            batch_size=4,                 # Nombre d'images par lot
             class_mode='categorical')      # Type d'encodage des étiquettes (one-hot pour multi-classes)
         return datagen, train_generator, validation_generator
     else:
