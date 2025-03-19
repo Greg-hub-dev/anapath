@@ -3,45 +3,63 @@
 import glob
 import os
 import time
-import pickle
+import json
 
 from colorama import Fore, Style
 from tensorflow import keras
 from google.cloud import storage
-
+import numpy as np
 from anapath.params import *
 
 
-def save_results(params: dict, metrics: dict) -> None:
+
+def save_results(history, train_generator) -> None:
     """
     Persist params & metrics locally on the hard drive at
     "{LOCAL_REGISTRY_PATH}/params/{current_timestamp}.pickle"
     "{LOCAL_REGISTRY_PATH}/metrics/{current_timestamp}.pickle"
     - (unit 03 only) if MODEL_TARGET='mlflow', also persist them on MLflow
     """
-    if MODEL_TARGET == "mlflow":
-        if params is not None:
-            mlflow.log_params(params)
-        if metrics is not None:
-            mlflow.log_metrics(metrics)
-        print("✅ Results saved on MLflow")
-
     timestamp = time.strftime("%Y%m%d-%H%M%S")
+    val_accuracy = np.min(history.history['val_accuracy'])
+    val_loss = np.min(history.history['val_loss'])
+
+    params = {
+        'context':"train",
+        'preprocess': {
+            'row_count': int(len(train_generator)),
+            'color_mode': str(train_generator.color_mode),
+            'target_size': str(train_generator.target_size)
+        }
+    }
+    print(params)
+    metrics=dict(accuracy=float(val_accuracy),loss=float(val_loss))
+
 
     # Save params locally
     if params is not None:
-        params_path = os.path.join(LOCAL_REGISTRY_PATH, "params", timestamp + ".pickle")
+        params_path = os.path.join(LOCAL_REGISTRY_PATH, "params", f"{timestamp}.json")
         with open(params_path, "wb") as file:
-            pickle.dump(params, file)
+            json.dump(params, file, indent=4)
 
     # Save metrics locally
     if metrics is not None:
-        metrics_path = os.path.join(LOCAL_REGISTRY_PATH, "metrics", timestamp + ".pickle")
+        metrics_path = os.path.join(LOCAL_REGISTRY_PATH, "metrics", f"{timestamp}.json")
         with open(metrics_path, "wb") as file:
-            pickle.dump(metrics, file)
+            json.dump(metrics, file, indent=4)
 
     print("✅ Results saved locally")
+    if MODEL_TARGET == "gcs":
+        # 🎁 We give you this piece of code as a gift. Please read it carefully! Add a breakpoint if needed!
 
+        client = storage.Client()
+        bucket = client.bucket(BUCKET_NAME)
+        blob = bucket.blob(f"models/params",generation=True)
+        blob.upload_from_filename(params_path)
+        blob = bucket.blob(f"models/metrics",generation=True)
+        blob.upload_from_filename(metrics_path)
+
+        print("✅ params and metrics saved to GCS")
 
 def save_model(model: keras.Model = None) -> None:
     """
@@ -55,8 +73,8 @@ def save_model(model: keras.Model = None) -> None:
     # Save model locally
     model_path = os.path.join(LOCAL_REGISTRY_PATH, "models", f"{timestamp}.h5")
     model.save(model_path)
-
     print("✅ Model saved locally")
+    print(MODEL_TARGET)
 
     if MODEL_TARGET == "gcs":
         # 🎁 We give you this piece of code as a gift. Please read it carefully! Add a breakpoint if needed!
