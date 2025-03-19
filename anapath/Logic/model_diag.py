@@ -68,8 +68,8 @@ def compile_model(model: Model, learning_rate=0.0005) -> Model:
 
 
 def evaluate_model2(
-        model: Model,
-        batch_size=1):
+        model: Model
+        ):
     """
     Evaluate trained model performance on the dataset
     """
@@ -77,17 +77,19 @@ def evaluate_model2(
     if model is None:
         print(f"\n❌ No model to evaluate")
         return None
-    datagen = ImageDataGenerator(
+    datagen_test = ImageDataGenerator(
         rescale = 1/255)
-    test_generator = datagen.flow_from_directory(
+    test_generator = datagen_test.flow_from_directory(
         test_path,  # Dossier parent contenant un sous-dossier par classe
-        target_size=(512, 1024),        # Redimensionnement des images
-        batch_size=1,                 # Nombre d'images par lot
-        class_mode='categorical')      # Type d'encodage des étiquettes (one-hot pour multi-classes)
+        target_size=(1024, 2048),        # Redimensionnement des images
+        shuffle=True,
+        batch_size=8,
+        color_mode ='grayscale', # Nombre d'images par lot
+        class_mode='binary')     # Type d'encodage des étiquettes
 
     metrics = model.evaluate(
         test_generator,
-        batch_size=batch_size,
+        batch_size=8,
         verbose=0,
         # callbacks=None,
         return_dict=True)
@@ -105,7 +107,6 @@ def train_model(
         train_generator,
         val_generator,
         epochs,
-        batch_size=2,
         patience=10,
     ) -> Tuple[Model, dict]:
     """
@@ -114,7 +115,7 @@ def train_model(
     print(Fore.BLUE + "\nTraining model..." + Style.RESET_ALL)
 
     es = EarlyStopping(
-        monitor="loss",
+        monitor="val_loss",
         patience=patience,
         restore_best_weights=True,
         verbose=1
@@ -123,13 +124,12 @@ def train_model(
     history_cnn = model.fit(
         train_generator,
         steps_per_epoch=len(train_generator),
-        batch_size=batch_size,
         epochs=epochs,
         validation_data=val_generator,
         validation_steps=len(val_generator),
         callbacks=[es]
         )
 
-    print(f"✅ Model trained on {len(train_generator)} images with min val Accuracy: {round(np.min(history_cnn.history['val_accuracy']), 2)}")
+    print(f"✅ Model trained on {len(train_generator)} images with max val Accuracy: {round(np.max(history_cnn.history['val_accuracy']), 2)}")
 
     return model, history_cnn
