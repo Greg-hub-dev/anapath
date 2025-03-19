@@ -60,7 +60,7 @@ def datagenerator_train(type, target_size = (1024,2048)):
 # Configuration du générateur d'augmentation
 
     if type == 'diag':
-        datagen = ImageDataGenerator(
+        datagen_train = ImageDataGenerator(
             rescale = 1/255,           #Pour normaliser les pixels entre 0 et 1 - Pas sur que cela soit nécesssaire car déjà scaler
             rotation_range=30,        # Rotation aléatoire dans une plage de données jusqu'à 30 degrés
             width_shift_range=0.1,    # Décalage aléatoire en largeur (horizontal) jusqu'à 10% de la largeur
@@ -71,16 +71,16 @@ def datagenerator_train(type, target_size = (1024,2048)):
             horizontal_flip=True,     # Retournement horizontal aléatoire
             vertical_flip = True,     # Retournement vertical aléatoire
             fill_mode='nearest')      # Méthode pour remplir les pixels créés après transformation ('nearest'= remplit avec la valeur du pixel le plus proche, 'reflect'= remplit en réfléchissant les bords, 'constant' remplit avec une valeur constante(cval), 'wrap' = remplit en enveloppant les bords)
-        train_generator = datagen.flow_from_directory(
+        train_generator = datagen_train.flow_from_directory(
             train_path,  # Dossier parent contenant un sous-dossier par classe
             target_size=target_size,        # Redimensionnement des images
             batch_size=8,                 # Nombre d'images par lot
             shuffle=True,
             color_mode ='grayscale',
             class_mode='binary')
-        return datagen, train_generator
+        return datagen_train, train_generator
     elif type=='tx':
-        datagen = ImageDataGenerator(
+        datagen_train = ImageDataGenerator(
             rescale = 1/255,           #Pour normaliser les pixels entre 0 et 1 - Pas sur que cela soit nécesssaire car déjà scaler
             rotation_range=30,        # Rotation aléatoire dans une plage de données jusqu'à 30 degrés
             width_shift_range=0.1,    # Décalage aléatoire en largeur (horizontal) jusqu'à 10% de la largeur
@@ -91,39 +91,39 @@ def datagenerator_train(type, target_size = (1024,2048)):
             horizontal_flip=True,     # Retournement horizontal aléatoire
             vertical_flip = True,     # Retournement vertical aléatoire
             fill_mode='nearest')      # Méthode pour remplir les pixels créés après transformation ('nearest'= remplit avec la valeur du pixel le plus proche, 'reflect'= remplit en réfléchissant les bords, 'constant' remplit avec une valeur constante(cval), 'wrap' = remplit en enveloppant les bords)
-        train_generator = datagen.flow_from_directory(
+        train_generator = datagen_train.flow_from_directory(
             train_path,  # Dossier parent contenant un sous-dossier par classe
             target_size=target_size,        # Redimensionnement des images
             batch_size=8,                 # Nombre d'images par lot
             shuffle=True,
             color_mode ='grayscale',
             class_mode='binary')
-        return datagen, train_generator
+        return datagen_train, train_generator
     else:
         return None
 
 def datagenerator_val(type, target_size= (1024,2048)):
     if type == 'diag':
-        datagen = ImageDataGenerator(
+        datagen_val = ImageDataGenerator(
             rescale = 1/255)
-        validation_generator = datagen.flow_from_directory(
+        validation_generator = datagen_val.flow_from_directory(
             val_path,
             target_size=target_size,
             shuffle=True,
             batch_size=8,
             color_mode ='grayscale',
             class_mode='binary')
-        return datagen, validation_generator
+        return datagen_val, validation_generator
     elif type=='tx':
-        datagen = ImageDataGenerator(
+        datagen_val = ImageDataGenerator(
             rescale = 1/255)
-        validation_generator = datagen.flow_from_directory(
+        validation_generator = datagen_val.flow_from_directory(
             val_path,
             target_size=target_size,
             shuffle=True,
             batch_size=8,
             color_mode ='grayscale',
             class_mode='binary')
-        return datagen, validation_generator
+        return datagen_val, validation_generator
     else:
         return None
