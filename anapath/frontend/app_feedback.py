@@ -270,4 +270,3 @@ Cet outil est destiné à un usage professionnel uniquement.
 """)
 st.markdown('</div>', unsafe_allow_html=True)
 
-Version 10 sur 10
