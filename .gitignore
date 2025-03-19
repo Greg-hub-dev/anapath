@@ -3,3 +3,4 @@ raw_data/
 .python-version
 anapath/Logic/__pycache__/
 anapath/image/__pycache__/
+build/
