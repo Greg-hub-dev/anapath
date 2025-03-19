@@ -1,5 +1,3 @@
-'''version du cours : A ADAPTER'''
-
 import glob
 import os
 import time
@@ -13,7 +11,7 @@ from anapath.params import *
 
 
 
-def save_results(history, train_generator) -> None:
+def save_results(name, history, train_generator) -> None:
     """
     Persist params & metrics locally on the hard drive at
     "{LOCAL_REGISTRY_PATH}/params/{current_timestamp}.pickle"
@@ -23,11 +21,11 @@ def save_results(history, train_generator) -> None:
     timestamp = time.strftime("%Y%m%d-%H%M%S")
     val_accuracy = np.min(history.history['val_accuracy'])
     val_loss = np.min(history.history['val_loss'])
-
     params = {
         'context':"train",
         'preprocess': {
             'row_count': int(len(train_generator)),
+            'batch_size': int(train_generator.batch_size),
             'color_mode': str(train_generator.color_mode),
             'target_size': str(train_generator.target_size)
         }
@@ -38,14 +36,14 @@ def save_results(history, train_generator) -> None:
 
     # Save params locally
     if params is not None:
-        params_path = os.path.join(LOCAL_REGISTRY_PATH, "params", f"{timestamp}.json")
-        with open(params_path, "wb") as file:
+        params_path = os.path.join(LOCAL_REGISTRY_PATH, "params", f"{name}_{timestamp}.json")
+        with open(params_path, "w") as file:
             json.dump(params, file, indent=4)
 
     # Save metrics locally
     if metrics is not None:
-        metrics_path = os.path.join(LOCAL_REGISTRY_PATH, "metrics", f"{timestamp}.json")
-        with open(metrics_path, "wb") as file:
+        metrics_path = os.path.join(LOCAL_REGISTRY_PATH, "metrics", f"{name}_{timestamp}.json")
+        with open(metrics_path, "w") as file:
             json.dump(metrics, file, indent=4)
 
     print("✅ Results saved locally")
@@ -61,7 +59,7 @@ def save_results(history, train_generator) -> None:
 
         print("✅ params and metrics saved to GCS")
 
-def save_model(model: keras.Model = None) -> None:
+def save_model(name, model: keras.Model = None) -> None:
     """
     Persist trained model locally on the hard drive at f"{LOCAL_REGISTRY_PATH}/models/{timestamp}.h5"
     - if MODEL_TARGET='gcs', also persist it in your bucket on GCS at "models/{timestamp}.h5" --> unit 02 only
@@ -71,7 +69,7 @@ def save_model(model: keras.Model = None) -> None:
     timestamp = time.strftime("%Y%m%d-%H%M%S")
 
     # Save model locally
-    model_path = os.path.join(LOCAL_REGISTRY_PATH, "models", f"{timestamp}.h5")
+    model_path = os.path.join(LOCAL_REGISTRY_PATH, "models", f"{name}_{timestamp}.h5")
     model.save(model_path)
     print("✅ Model saved locally")
     print(MODEL_TARGET)
@@ -103,7 +101,7 @@ def save_model(model: keras.Model = None) -> None:
     return None
 
 
-def load_model(stage="Production") -> keras.Model:
+def load_model(stage="Production",type="diag") -> keras.Model:
     """
     Return a saved model:
     - locally (latest one in alphabetical order)
@@ -113,18 +111,20 @@ def load_model(stage="Production") -> keras.Model:
     Return None (but do not Raise) if no model is found
 
     """
-
     if MODEL_TARGET == "local":
         print(Fore.BLUE + f"\nLoad latest model from local registry..." + Style.RESET_ALL)
 
         # Get the latest model version name by the timestamp on disk
         local_model_directory = os.path.join(LOCAL_REGISTRY_PATH, "models")
         local_model_paths = glob.glob(f"{local_model_directory}/*")
+        print(local_model_paths)
 
         if not local_model_paths:
             return None
 
         most_recent_model_path_on_disk = sorted(local_model_paths)[-1]
+        print(most_recent_model_path_on_disk)
+        most_recent_model_path_on_disk = "/home/gregoire/.lewagon/mlops/training_outputs/models/model_baseline_1024_2048.pkl"
 
         print(Fore.BLUE + f"\nLoad latest model from disk..." + Style.RESET_ALL)
 
@@ -141,8 +141,10 @@ def load_model(stage="Production") -> keras.Model:
         client = storage.Client()
         blobs = list(client.get_bucket(BUCKET_NAME).list_blobs(prefix="model"))
 
+        h5_model_blobs = [blob for blob in blobs if blob.name.endswith('.h5') or blob.name.endswith('.hdf5')]
         try:
-            latest_blob = max(blobs, key=lambda x: x.updated)
+            latest_blob = max(h5_model_blobs, key=lambda x: x.updated)
+            print(latest_blob)
             latest_model_path_to_save = os.path.join(LOCAL_REGISTRY_PATH, latest_blob.name)
             latest_blob.download_to_filename(latest_model_path_to_save)
 
@@ -156,28 +158,6 @@ def load_model(stage="Production") -> keras.Model:
 
             return None
 
-    elif MODEL_TARGET == "mlflow":
-        print(Fore.BLUE + f"\nLoad [{stage}] model from MLflow..." + Style.RESET_ALL)
-
-        # Load model from MLflow
-        model = None
-        mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
-        client = MlflowClient()
-
-        try:
-            model_versions = client.get_latest_versions(name=MLFLOW_MODEL_NAME, stages=[stage])
-            model_uri = model_versions[0].source
-
-            assert model_uri is not None
-        except:
-            print(f"\n❌ No model found with name {MLFLOW_MODEL_NAME} in stage {stage}")
-
-            return None
-
-        model = mlflow.tensorflow.load_model(model_uri=model_uri)
-
-        print("✅ Model loaded from MLflow")
-        return model
     else:
         return None
 
