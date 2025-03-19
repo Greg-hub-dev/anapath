@@ -8,6 +8,8 @@ import tensorflow as tf
 from tensorflow.keras import layers, Sequential, models
 from keras import Model, Sequential, layers, regularizers, optimizers
 from keras.callbacks import EarlyStopping
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.optimizers.schedules import ExponentialDecay
 
 from anapath.params import *
 
@@ -52,19 +54,33 @@ def initialize_model_tx(input_shape: tuple) -> Model:
 
     return model
 
-def compile_model_tx(model: Model, learning_rate=0.0005) -> Model:
+
+
+
+initial_learning_rate = 0.0001
+
+lr_schedule = ExponentialDecay(
+        initial_learning_rate,
+        decay_steps = 1000,
+        decay_rate = 0.5
+    )
+
+adam = Adam(learning_rate=lr_schedule)
+
+def compile_model_tx(model: Model, optimizer) -> Model:
     """
     Compile the Neural Network
     """
-    adam_opt = optimizers.Adam(learning_rate, beta_1=0.9, beta_2=0.999)
-    model.compile(optimizer='adam',
-              loss='binary_crossentropy',
-              metrics=['accuracy','recall'])
 
+
+    model.compile(optimizer=optimizer,
+              loss='binary_crossentropy',
+              metrics=['accuracy'])
 
     print("✅ Model compiled")
 
     return model
+
 
 def train_model_tx(
         model: Model,
@@ -79,7 +95,7 @@ def train_model_tx(
     print(Fore.BLUE + "\nTraining model..." + Style.RESET_ALL)
 
     es = EarlyStopping(
-        monitor="val_recall",
+        monitor="val_accuracy",
         patience=patience,
         restore_best_weights=True,
         verbose=1
@@ -88,8 +104,7 @@ def train_model_tx(
     history_cnn = model.fit(
         train_generator,
         steps_per_epoch=len(train_generator),
-        batch_size=batch_size,
-        epochs=100,
+        epochs=5,
         validation_data=val_generator,
         validation_steps=len(val_generator),
         callbacks=[es]

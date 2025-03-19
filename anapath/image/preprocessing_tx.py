@@ -41,10 +41,10 @@ def preprocess_image(image : np.array, target_size=(256, 256), normalize=True):
 
     # Convertir en objet PIL si ce n'est pas déjà le cas
     #if not isinstance(image, Image.Image):
-    #    image = Image.fromarray(image)
+        #image = Image.fromarray(image)
 
     # Redimensionner
-    image = cv2.resize(image, target_size)
+    image = cv2.resize(image, target_size, interpolation=cv2.INTER_AREA)
 
     # Convertir BGR en RGB
     image_array = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -55,7 +55,7 @@ def preprocess_image(image : np.array, target_size=(256, 256), normalize=True):
 
     return image_array
 
-def cell_datagenerator(type, target_size = (512,1024)):
+def datagenerator_tx(type, target_size = (512,1024)):
 # Configuration du générateur d'augmentation
 
     if type == 'cell':
@@ -67,12 +67,12 @@ def cell_datagenerator(type, target_size = (512,1024)):
             train_cell_path,  # Dossier parent contenant un sous-dossier par classe
             target_size=target_size,        # Redimensionnement des images
             batch_size=4,                 # Nombre d'images par lot
-            class_mode='categorical')      # Type d'encodage des étiquettes (one-hot pour multi-classes)
+            class_mode='binary')      # Type d'encodage des étiquettes (one-hot pour multi-classes)
         validation_generator = datagen.flow_from_directory(
             val_cell_path,  # Dossier parent contenant un sous-dossier par classe
             target_size=target_size,        # Redimensionnement des images
             batch_size=4,                 # Nombre d'images par lot
-            class_mode='categorical')      # Type d'encodage des étiquettes (one-hot pour multi-classes)
+            class_mode='binary')      # Type d'encodage des étiquettes (one-hot pour multi-classes)
         return datagen, train_generator, validation_generator
     else:
         datagen = ImageDataGenerator(
@@ -83,10 +83,10 @@ def cell_datagenerator(type, target_size = (512,1024)):
             train_cell_path,  # Dossier parent contenant un sous-dossier par classe
             target_size=(512, 1024),        # Redimensionnement des images
             batch_size=1,                 # Nombre d'images par lot
-            class_mode='categorical')      # Type d'encodage des étiquettes (one-hot pour multi-classes)
+            class_mode='binary')      # Type d'encodage des étiquettes (one-hot pour multi-classes)
         validation_generator = datagen.flow_from_directory(
             val_cell_path,  # Dossier parent contenant un sous-dossier par classe
             target_size=(512, 1024),        # Redimensionnement des images
             batch_size=1,                 # Nombre d'images par lot
-            class_mode='categorical')      # Type d'encodage des étiquettes (one-hot pour multi-classes)
+            class_mode='binary')      # Type d'encodage des étiquettes (one-hot pour multi-classes)
     return datagen, train_generator, validation_generator
