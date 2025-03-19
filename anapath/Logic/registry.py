@@ -9,8 +9,6 @@ from google.cloud import storage
 import numpy as np
 from anapath.params import *
 
-
-
 def save_results(name, history, train_generator) -> None:
     """
     Persist params & metrics locally on the hard drive at
