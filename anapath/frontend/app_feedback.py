@@ -176,7 +176,7 @@ if uploaded_file is not None:
                     st.markdown("Votre retour nous aide à améliorer la précision de notre outil. Ce résultat vous semble-t-il correct?")
                     
                     # Utilisation de la session state pour suivre l état du feedback
-                    if 'feedback_submitted  not in st.session_state:
+                    if 'feedback_submitted'  not in st.session_state:
                         st.session_state.feedback_submitted = False
                     if 'show_negative_form' not in st.session_state:
                         st.session_state.show_negative_form = False
