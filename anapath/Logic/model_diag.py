@@ -78,7 +78,8 @@ def evaluate_model2(
         print(f"\n❌ No model to evaluate")
         return None
     datagen = ImageDataGenerator(
-        rescale = 1/255)
+        rescale = 1/255,
+        target_size=(512, 1024))
     test_generator = datagen.flow_from_directory(
         test_path,  # Dossier parent contenant un sous-dossier par classe
         target_size=(512, 1024),        # Redimensionnement des images
