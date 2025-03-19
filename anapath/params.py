@@ -1,6 +1,9 @@
 import os
 
 LOCAL_REGISTRY_PATH =  os.path.join(os.path.expanduser('~'), ".lewagon", "mlops", "training_outputs")
+MODEL_TARGET = os.environ.get("MODEL_TARGET")
+API_KEY = os.environ.get("ANTHROPIC_API_KEY")
+BUCKET_NAME = os.environ.get("BUCKET_NAME")
 
 min_size_mb = 13.5 # Taille min par tuile (en Mo)
 tile_size_l = 4096
