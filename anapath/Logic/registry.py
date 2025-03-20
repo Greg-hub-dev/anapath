@@ -121,8 +121,8 @@ def load_model(stage="Production",type="diag") -> keras.Model:
             return None
 
         most_recent_model_path_on_disk = sorted(local_model_paths)[-1]
-        print(most_recent_model_path_on_disk)
-        most_recent_model_path_on_disk = "/home/gregoire/.lewagon/mlops/training_outputs/models/model_baseline_1024_2048.pkl"
+        print(f"C est le repertoire : {most_recent_model_path_on_disk}")
+        #most_recent_model_path_on_disk = "/home/gregoire/.lewagon/mlops/training_outputs/models/model_baseline_1024_2048.pkl"
 
         print(Fore.BLUE + f"\nLoad latest model from disk..." + Style.RESET_ALL)
 
@@ -140,10 +140,13 @@ def load_model(stage="Production",type="diag") -> keras.Model:
         blobs = list(client.get_bucket(BUCKET_NAME).list_blobs(prefix="model"))
 
         h5_model_blobs = [blob for blob in blobs if blob.name.endswith('.h5') or blob.name.endswith('.hdf5')]
-        try:
+        #try:
+        if True:
             latest_blob = max(h5_model_blobs, key=lambda x: x.updated)
             print(latest_blob)
-            latest_model_path_to_save = os.path.join(LOCAL_REGISTRY_PATH, latest_blob.name)
+            LOCAL_REGISTRY_PATH = "/model"
+            latest_model_path_to_save = os.path.join(LOCAL_REGISTRY_PATH, str(latest_blob.name).replace("models/",""))
+            print(latest_model_path_to_save)
             latest_blob.download_to_filename(latest_model_path_to_save)
 
             latest_model = keras.models.load_model(latest_model_path_to_save)
@@ -151,10 +154,10 @@ def load_model(stage="Production",type="diag") -> keras.Model:
             print("✅ Latest model downloaded from cloud storage")
 
             return latest_model
-        except:
-            print(f"\n❌ No model found in GCS bucket {BUCKET_NAME}")
+        #except:
+        #    print(f"\n❌ No model found in GCS bucket {BUCKET_NAME}")
 
-            return None
+        #    return None
 
     else:
         return None

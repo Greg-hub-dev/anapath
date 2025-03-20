@@ -45,11 +45,11 @@ def preprocess_image(image : np.array, target_size=(256, 256), normalize=True):
     #    image = Image.fromarray(image)
 
     # Redimensionner
-    image = cv2.resize(image, target_size)
+    image = np.array(image.resize(target_size))
 
     # Convertir BGR en RGB
     image_array = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
+    #image = cv2.cvtColor(image_array, cv2.COLOR_RGB2GRAY)
     # Normaliser (optionnel)
     if normalize:
         image_array = image_array.astype(np.float32) / 255.0
