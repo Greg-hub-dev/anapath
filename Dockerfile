@@ -7,17 +7,18 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 
-COPY anapath /anapath
-COPY anapath/frontend/requirements.txt /requirements.txt
-COPY setup.py /setup.py
 
+COPY setup.py /setup.py
+COPY wagon-bootcamp-448714-f262f727bd9d.json /googleapp/wagon-bootcamp-448714-f262f727bd9d.json
+COPY requirements.txt /requirements.txt
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-RUN pip install -e .
+#RUN pip install -e .
+RUN mkdir -p model
+
+COPY anapath /anapath
+
 
 #local
-#CMD uvicorn anapath.api.fast:app --reload
-
-#Distance
-CMD uvicorn anapath.api.fast:app --host 0.0.0.0 --port $PORT
+CMD uvicorn anapath.api.fast_copy:app --reload --host 0.0.0.0 --port $PORT

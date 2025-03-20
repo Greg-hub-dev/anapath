@@ -6,6 +6,8 @@
 .python-version
 *.pyc
 **/build
+notebooks/test_deep.ipynb
+wagon-bootcamp-448714-f262f727bd9d.json
 
 # Ignore these macos generated files
 .DS_Store

@@ -86,7 +86,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # URL de l API
-url = 'https://anapath-1068402267466.europe-west1.run.app'
+url = 'https://anapath2-1068402267466.europe-west1.run.app'
+#url = 'http://localhost:8000'
 
 # En-tête et introduction
 st.markdown('<div class="title-container"><h1>Diagnostic Histopathologique Assisté par IA</h1></div>', unsafe_allow_html=True)
@@ -116,29 +117,29 @@ st.markdown('</div>', unsafe_allow_html=True)
 if uploaded_file is not None:
     st.markdown('<h2 class="section-title">Analyse et Résultats</h2>', unsafe_allow_html=True)
     st.markdown('<div class="result-section">', unsafe_allow_html=True)
-    
+
     # Disposition en colonnes pour l image originale et les résultats
     col1, col2 = st.columns(2)
-    
+
     with col1:
         st.markdown('<h3 class="subtitle">Image Source</h3>', unsafe_allow_html=True)
-        
+
         # Affichage de l image téléchargée
         image = Image.open(uploaded_file)
         st.image(image, caption="Image histologique téléchargée", use_container_width=True)
-        
+
         # Informations sur l image
         st.markdown(f"**Dimensions:** {image.width} × {image.height} pixels")
         st.markdown(f"**Format:** {uploaded_file.type}")
-    
+
     with col2:
         st.markdown('<h3 class="subtitle">Résultats de l\'Analyse</h3>', unsafe_allow_html=True)
-        
+
         # Simulation de chargement avec une barre de progression
         with st.spinner("Analyse en cours..."):
             # Obtention des bytes de l image
             img_bytes = uploaded_file.getvalue()
-            
+
             # Appel à l API
             try:
                 # Afficher une barre de progression pour améliorer l expérience utilisateur
@@ -147,19 +148,19 @@ if uploaded_file is not None:
                     # Simulation de traitement
                     time.sleep(0.01)
                     progress_bar.progress(i + 1)
-                
+
                 # Envoi de l image à l API
                 res = requests.post(url + "/upload_image", files={'img': img_bytes}, timeout=30)
-                
+
                 if res.status_code == 200:
                     # Affichage de l image annotée retournée par l API
                     st.image(res.content, caption="Image Analysée avec Annotations", use_container_width=True)
-                    
+
                     # Ici, vous pourriez ajouter plus de données de résultat si votre API les retourne
                     # Par exemple, un JSON avec les résultats d analyse détaillés
-                    
+
                     st.success("Analyse complétée avec succès")
-                    
+
                     # Exemple de visualisation de résultats fictifs (à remplacer par les vraies données de votre API)
                     st.markdown("### Interprétation des Résultats")
                     st.markdown("""
@@ -167,20 +168,20 @@ if uploaded_file is not None:
                     - **Taux de cellularité tumorale:** Environ 65%
                     - **Grade histologique:** Grade II/III
                     """)
-                    
+
                     # Avertissement médical
                     st.warning("**Remarque importante :** Ces résultats sont générés automatiquement et doivent être confirmés par un anatomopathologiste.")
-                    
+
                     # Section de feedback
                     st.markdown("### Évaluation de la qualité du résultat")
                     st.markdown("Votre retour nous aide à améliorer la précision de notre outil. Ce résultat vous semble-t-il correct?")
-                    
+
                     # Utilisation de la session state pour suivre l état du feedback
                     if 'feedback_submitted'  not in st.session_state:
                         st.session_state.feedback_submitted = False
                     if 'show_negative_form' not in st.session_state:
                         st.session_state.show_negative_form = False
-                    
+
                     # Fonction pour gérer le feedback positif
                     def submit_positive_feedback():
                         try:
@@ -189,7 +190,7 @@ if uploaded_file is not None:
                                 "feedback": "positive",
                                 "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
                             }
-                            
+
                             feedback_res = requests.post(url + "/feedback", json=feedback_data)
                             if feedback_res.status_code == 200:
                                 st.session_state.feedback_submitted = True
@@ -198,11 +199,11 @@ if uploaded_file is not None:
                                 st.session_state.feedback_error = f"Erreur: {feedback_res.status_code} - {feedback_res.text}"
                         except Exception as e:
                             st.session_state.feedback_error = str(e)
-                    
+
                     # Fonction pour afficher le formulaire de feedback négatif
                     def show_negative_feedback_form():
                         st.session_state.show_negative_form = True
-                    
+
                     # Fonction pour envoyer le feedback négatif
                     def submit_negative_feedback():
                         try:
@@ -212,7 +213,7 @@ if uploaded_file is not None:
                                 "comment": st.session_state.negative_comment,
                                 "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
                             }
-                            
+
                             feedback_res = requests.post(url + "/feedback", json=feedback_data)
                             if feedback_res.status_code == 200:
                                 st.session_state.feedback_submitted = True
@@ -221,7 +222,7 @@ if uploaded_file is not None:
                                 st.session_state.feedback_error = f"Erreur: {feedback_res.status_code} - {feedback_res.text}"
                         except Exception as e:
                             st.session_state.feedback_error = str(e)
-                    
+
                     # Affichage des boutons ou du résultat du feedback
                     if st.session_state.feedback_submitted:
                         if 'feedback_success' in st.session_state and st.session_state.feedback_success:
@@ -230,24 +231,24 @@ if uploaded_file is not None:
                             st.error(f"Erreur lors de l envoi du retour: {st.session_state.feedback_error}")
                     else:
                         col_thumbs_up, col_thumbs_down = st.columns(2)
-                        
+
                         with col_thumbs_up:
                             st.button("👍 Résultat correct", on_click=submit_positive_feedback)
-                        
+
                         with col_thumbs_down:
                             st.button("👎 Résultat incorrect", on_click=show_negative_feedback_form)
-                        
+
                         # Affichage du formulaire de feedback négatif si demandé
                         if st.session_state.show_negative_form:
                             st.text_area("Pourriez-vous préciser ce qui semble incorrect?", key="negative_comment", height=100)
                             st.button("Envoyer votre commentaire", on_click=submit_negative_feedback)
-                    
+
                 else:
                     st.error(f"Erreur lors de l analyse: {res.status_code} - {res.text}")
-                    
+
             except Exception as e:
                 st.error(f"Une erreur s'est produite: {str(e)}")
-    
+
     st.markdown('</div>', unsafe_allow_html=True)
 
 # Section d informations supplémentaires
@@ -265,8 +266,7 @@ st.markdown('</div>', unsafe_allow_html=True)
 # Pied de page
 st.markdown('<div class="footer">', unsafe_allow_html=True)
 st.markdown("""
-© 2024 Service d Anatomie Pathologique - Tous droits réservés  
+© 2024 Service d Anatomie Pathologique - Tous droits réservés
 Cet outil est destiné à un usage professionnel uniquement.
 """)
 st.markdown('</div>', unsafe_allow_html=True)
-
