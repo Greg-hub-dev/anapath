@@ -25,7 +25,7 @@ test_structure:
 #======================#
 
 run_api:
-	uvicorn api.fast:app --reload --port 8000
+	uvicorn anapath.api.fast_phikon:app --reload --port 8000
 
 
 #======================#

@@ -154,20 +154,31 @@ if uploaded_file is not None:
 
                 if res.status_code == 200:
                     # Affichage de l image annotée retournée par l API
-                    st.image(res.content, caption="Image Analysée avec Annotations", use_container_width=True)
+                    #st.image(res.content, caption="Image Analysée avec Annotations", use_container_width=True)
 
                     # Ici, vous pourriez ajouter plus de données de résultat si votre API les retourne
-                    # Par exemple, un JSON avec les résultats d analyse détaillés
+                    # Par exemple, un JSON avec les résultats d'analyse détaillés
+                    st.markdown('<h3 class="subtitle">Résultats de l\'Analyse</h3>', unsafe_allow_html=True)
+
+                    result_data = res.headers
+                    st.markdown("### **Microbiopsie d'une lésion du sein gauche (externe) :**")
+                    st.markdown("")
+                    st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;**Diagnostic:** {result_data.get('X-Prediction-Result')}")
+                    if res.headers.get('p_class_d') == 'tumor':
+                        st.markdown("&nbsp;&nbsp;&nbsp;&nbsp;carcinome infiltrant de type non spécifique - Échantillon tumoral inclus en paraffine pour génétique somatique")
+                        st.markdown("&nbsp;&nbsp;&nbsp;&nbsp;Absence de facteur confondant à type de nécrose, fibrose, ou mucine.")
+                        st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;**Intervalle de confiance pour le diagnostic :** {result_data.get('c_diag')} %")
+                        st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;**Pourcentage de cellules tumorales dans la zone sélectionnée {result_data.get('p_class_tx').upper()}**")
+                        st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;**Intervalle de confiance pour le Taux de Cellularité:** {result_data.get('c_tx')} %")
+                    else:
+
+                    # Affichage des résultats détaillés
+                    st.markdown("### Résultats Détaillés de l'Analyse")
+                    #st.json(result_data)
+
 
                     st.success("Analyse complétée avec succès")
 
-                    # Exemple de visualisation de résultats fictifs (à remplacer par les vraies données de votre API)
-                    st.markdown("### Interprétation des Résultats")
-                    st.markdown("""
-                    - **Classification:** Carcinome canalaire infiltrant (probabilité élevée)
-                    - **Taux de cellularité tumorale:** Environ 65%
-                    - **Grade histologique:** Grade II/III
-                    """)
 
                     # Avertissement médical
                     st.warning("**Remarque importante :** Ces résultats sont générés automatiquement et doivent être confirmés par un anatomopathologiste.")
