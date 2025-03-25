@@ -1,0 +1,216 @@
+@import url('https://fonts.googleapis.com/css2?family=Akaya+Kanadaka&display=swap');
+
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+  }
+
+body
+{
+    background-color: #fff7f0;
+}
+
+.anapath_header{
+    background-image: url(./image/tile_02174_c174_r0_c9_small.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 300px;
+}
+
+.navbar{
+    height: 50px;
+    border-width: 2px;
+    border-color: #9ea38e;
+    margin-top: 20px;
+    font-optical-sizing: auto;
+}
+
+.nav-link{
+    color: black;
+}
+
+.nav-link,
+.dropdown-item{
+    color: #5b0893;
+    font-family: "Akaya Kanadaka", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 22px;
+}
+
+.dropdown-item{
+    width: 100%;
+    height: 30px;
+    padding: 5px;
+    line-height: 5px;
+
+}
+
+.navbar,
+.dropdown-menu
+{
+    background: linear-gradient(to right, #fff7f0 0%,#fdfdfd 50%,#fff7f0 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.dropdown-menu :focus{
+    background-color:rgb(245, 199, 129);
+}
+
+.anapath_title{
+    color: #5b0893;
+    font-family: "Akaya Kanadaka", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    text-shadow: 5px 10px 20px #e7c6ff;
+    background-position: center;
+    padding-top: 130px;
+    font-size: 45px;
+}
+
+.anapath_subtitle{
+  color: #5b0893;
+  font-family: "Akaya Kanadaka", system-ui;
+  font-weight: 80;
+  font-style: normal;
+  text-shadow: 5px 10px 20px #e7c6ff;
+  background-position: bottom right;
+  padding-top: 70px;
+  font-size: 35px;
+}
+
+.anapath_text{
+  color: #5b0893;
+  font-family: "Akaya Kanadaka", system-ui;
+  font-weight: 50;
+  font-style: normal;
+  text-shadow: 5px 10px 20px #e7c6ff;
+  background-position: bottom right;
+  padding-top: 20px;
+  font-size: 25px;
+}
+
+.first_section{
+    width: 100%;
+    height: auto;
+}
+
+.section_analyse{
+    width: 100%;
+    height: auto;
+    padding-bottom: 5px;
+}
+
+.section_result{
+  width: 100%;
+  height: auto;
+  padding-bottom: 5px;
+}
+
+.section_infos_comp{
+  width: 100%;
+  height: auto;
+  padding-bottom: 15px;
+}
+
+
+.card:hover,
+.card-img-top:first-child{
+    transform: translateY(-15px);
+}
+
+
+.card-text{
+    padding-top: 70px;
+    padding-bottom: 70px;
+    text-align: center;
+    font-size: 25px;
+}
+
+.infos{
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: center;
+  font-size: 20px;
+}
+
+.hinfos{
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: center;
+  font-size: 25px;
+}
+
+
+
+
+
+
+
+
+
+
+
+.button_top img{
+    width: 50px;
+    box-shadow : 5px 6px 10px #9ea38e;
+    border-radius: 50px;
+
+}
+
+.button_top{
+    visibility: hidden;
+    bottom: 80px;
+}
+
+.button_top-show{
+    visibility: visible;
+    animation: fade-in 0.7s ease-in forwards;
+}
+
+.button_top-hide{
+    animation: fade-out 1s ease-out forwards;
+}
+
+footer {
+    text-align: center;
+    background: linear-gradient(to right, #e7c6ff 0%,#ffd6ff 50%,#e7c6ff 100%);
+    height: 60px;
+    padding: 10px;
+    width: 100%;
+    margin-bottom: -100px;
+}
+
+footer a{
+    text-decoration: none;
+    color: #5b0893;
+}
+
+footer a:hover{
+    color: black;
+}
+
+.title_footer{
+    color: black;
+    font-family: "Akaya Kanadaka", system-ui;
+    font-style: normal;
+}

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr-fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔬 Analyse Histopathologique</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="index.css">
+
+</head>
+
+<body>
+    <header class="anapath_header">
+        <center>
+            <div class="row">
+              <h3 class="anapath_title">DIAGNOSTIC HISTOPATHOLOGIQUE ASSISTÉ PAR IA</h3>
+
+            </div>
+
+        </center>
+    </header>
+
+    <nav class="navbar sticky-top navbar-expand-lg">
+
+        <div class="mx-auto">
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="ms-auto collapse navbar-collapse" id="navbarSupportedContent">
+                 <a class="navbar-brand" href="#">
+                </a>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link home" aria-current="page" href="#">Home &nbsp&nbsp</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Analyse
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#outil">Outil</a></li>
+                            <li><a class="dropdown-item" href="#result">Résultats</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Informations Complémentaires
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#infos">Méthodologie</a></li>
+                            <li><a class="dropdown-item" href="#infos">Confidentialité</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+  <main>
+        <center>
+
+    <div class="first_section">
+
+    </div >
+
+
+    <div class="section_analyse" id="outil">
+
+            <div class="section_analyse" style="margin-bottom: 50px;"></div>
+
+                <div class="row mx-auto section_analyse">
+                    <h3 class="anapath_title">ANALYSE</h3>
+
+                    <p class="anapath_subtitle">À propos de l'outil</p>
+
+                    <p class="anapath_text">Cet outil d'aide à la décision analyse les images histologiques et fournit une évaluation :</p>
+
+                    <div class="row row-cols-1 row-cols-md-3 g-3">
+
+                        <div class="col">
+                          <div class="card h-100" onmouseover="moveUp(this)" onmouseout="moveDown(this)">
+                              <p class="card-text">Du diagnostic potentiel de tissus cancéreux</p>
+                          </div>
+                        </div>
+
+                        <div class="col">
+                          <div class="card h-100" onmouseover="moveUp(this)" onmouseout="moveDown(this)">
+                              <p class="card-text">De l'estimation du taux de cellularité tumorale</p>
+                          </div>
+                        </div>
+                        <div class="col">
+                            <div class="card h-100" onmouseover="moveUp(this)" onmouseout="moveDown(this)">
+                                <p class="card-text">Des caractéristiques morphologiques significatives</p>
+                            </div>
+                          </div>
+                      </div>
+
+                      <div>
+                        <p class="division"></p>
+                      </div>
+
+                      <div class="alert alert-danger" role="alert">
+                        Important : Cet outil est conçu pour assister les professionnels de santé et ne remplace pas l'expertise médicale.
+                      </div>
+
+                </div>
+        </div>
+
+
+        <div class="section_result" id="result">
+              <h3 class="anapath_title">RÉSULTATS</h3>
+
+            </div >
+
+
+        <div class="section_infos_comp" id="infos">
+
+          <div class="section_infos_comp" style="margin-bottom: 50px;"></div>
+
+              <div class="row mx-auto section_infos_comp">
+                  <h3 class="anapath_title">INFORMATIONS COMPLÉMENTAIRES</h3>
+
+                  <div class="row row-cols-1 row-cols-md-2">
+
+                    <div class="card">
+                      <div class="card-header hinfos">
+                        Méthodologie
+                      </div>
+                    <div class="card-body">
+                      <p class="card-text infos">Cette application utilise un modèle d intelligence artificielle entraîné sur des milliers d images histopathologiques annotées par des experts. L algorithme analyse les caractéristiques morphologiques des tissus pour identifier les patterns associés aux différents types de néoplasies.</p>
+                    </div>
+                  </div>
+
+                  <div class="card">
+                    <div class="card-header hinfos">
+                      Confidentialité
+                    </div>
+                    <div class="card-body">
+                      <p class="card-text infos">Toutes les images téléchargées sont traitées de manière sécurisée et ne sont pas conservées au-delà de la session d analyse.</p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+        </div>
+
+
+
+
+
+
+
+        </center>
+    </main>
+
+
+
+
+
+
+
+
+  <footer>
+        <center>
+              <div class="footer">
+            <a href="">&copy; 2024 Service d'Anatomie Pathologique - Tous droits réservés
+              Cet outil est destiné à un usage professionnel uniquement.</a>
+          </div>
+      </center>
+  </footer>
+
+
+
+
+    <div class="button_top sticky-bottom">
+        <center>
+            <a href="#">
+                <img src="./image/button_top.jpg" alt="">
+            </a>
+        </center>
+    </div>
+
+</body>
+
+</html>
+
+
+<script>
+    const botaoTopo = document.querySelector(".button_top");
+
+    window.addEventListener("scroll", function(event){
+      if (window.scrollY >= 100) {
+        botaoTopo.classList.add("button_top-show");
+        botaoTopo.classList.remove("button_top-hide");
+      } else {
+        botaoTopo.classList.add("button_top-hide");
+      }
+    });
+  </script>
+
+<script>
+  function moveUp(card) {
+      const mainImg = card.querySelector('.card-img-top');
+      mainImg.style.transform='translateY(-20px)';
+      mainImg.style.opacity='0';
+  }
+
+  function moveDown(card) {
+      const mainImg = card.querySelector('.card-img-top');
+      mainImg.style.transform='translateY(0)';
+      mainImg.style.opacity='1';
+  }
+</script>
